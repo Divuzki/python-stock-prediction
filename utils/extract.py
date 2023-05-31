@@ -1,5 +1,6 @@
 import requests
 import json
+import pandas as pd
 
 def get_stock_prices(symbol, api_key):
     """
@@ -29,8 +30,10 @@ def get_stock_prices(symbol, api_key):
             stock_prices = []
 
             for date, price in time_series.items():
+                date = pd.to_datetime(date)  # Convert date to datetime object
+                date_period = date.toordinal()  # Convert datetime to ordinal representation
                 stock_prices.append({
-                    'date': date,
+                    'date': date_period,
                     'open': float(price['1. open']),
                     'high': float(price['2. high']),
                     'low': float(price['3. low']),
